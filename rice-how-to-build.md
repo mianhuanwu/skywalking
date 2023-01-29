@@ -280,3 +280,29 @@ main:
 [INFO] ------------------------------------------------------------------------
 ➜  skywalking git:(rice-v8.7) ✗ 
 ```
+
+### 源码方式启动oap
+(非es存储)
+> {skywalking-project-path}/oap-server/server-starter/src/main/java/org/apache/skywalking/oap/server/starter/OAPServerStartUp.java
+
+此时出现
+```text
+程序包org.apache.skywalking.oap.server.configuration.service不存在
+程序包org.apache.skywalking.oap.server.configuration.service不存在
+程序包org.apache.skywalking.oap.server.configuration.service不存在
+程序包ConfigurationServiceGrpc不存在
+```
+需要把以下目录生成的源码标记为sources-root
+> oap-server/server-configuration/grpc-configuration-sync/target/generated-sources/protobuf
+
+同理，还会报其它包不存在的错误，需标记其它路径为sources-root
+- apm-protocol/apm-network/target/generated-sources/protobuf
+- oap-server/server-core/target/generated-sources/protobuf
+- oap-server/oal-grammar/target/generated-sources
+- oap-server/server-receiver-plugin/receiver-proto/target/generated-sources/protobuf
+- oap-server/exporter/target/generated-sources/protobuf
+- oap-server/server-alarm-plugin/target/generated-sources/protobuf
+- 
+
+查看docs/en/guides/How-to-build.md中的（Setting up your IntelliJ IDEA），讲的就是以上这个标记操作。
+
